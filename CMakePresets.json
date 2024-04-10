@@ -1,0 +1,56 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 23,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "config-base",
+            "hidden": true,
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "config-release",
+            "inherits": "config-base",
+            "displayName": "Config Release",
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": {
+                    "value": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+                    "type": "FILEPATH"
+                }
+            }
+        },
+        {
+            "name": "config-debug",
+            "inherits": "config-base",
+            "displayName": "Config Debug",
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": {
+                    "value": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+                    "type": "FILEPATH"
+                },
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "build-base",
+            "hidden": true,
+            "configurePreset": "config-debug"
+        },
+        {
+            "name": "build-debug",
+            "displayName": "Build Debug",
+            "inherits": "build-base"
+        },
+        {
+            "name": "build-release",
+            "displayName": "Build Release",
+            "inherits": "build-base",
+            "configurePreset": "config-release"
+        }
+    ]
+}
