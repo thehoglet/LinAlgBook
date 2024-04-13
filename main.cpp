@@ -1316,7 +1316,11 @@ void chapter_16()
   {
     // get pic and convert to double
     int width, height, channels;
-    unsigned char* img = stbi_load("Einstein_tongue.jpg", &width, &height, &channels, 0);
+    std::unique_ptr<stbi_uc[], void (*)(stbi_uc*)> img(
+      stbi_load("Einstein_tongue.jpg", &width, &height, &channels, 0),
+      [](stbi_uc* p) {stbi_image_free(p);}
+    );
+
     mat pic = zeros(height, width);
     for (u64 row = 0; row < height; ++row)
     {
